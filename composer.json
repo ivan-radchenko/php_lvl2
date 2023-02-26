@@ -1,0 +1,17 @@
+{
+    "name": "ivan/php",
+    "autoload": {
+        "psr-4": {
+            "Ivan\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan",
+            "email": "92185577+ivan-radchenko@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.21"
+    }
+}
