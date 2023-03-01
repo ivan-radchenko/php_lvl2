@@ -1,9 +1,9 @@
 <?php
 
-use GeekBrains\LevelTwo\Blog\Comment;
-use GeekBrains\LevelTwo\Blog\Post;
-use GeekBrains\LevelTwo\Blog\User;
-use GeekBrains\LevelTwo\Person\{Name};
+use Ivan\Php\Blog\Comment;
+use Ivan\Php\Blog\Post;
+use Ivan\Php\Blog\User;
+use Ivan\Php\Person\{Name};
 
 include __DIR__ . "/vendor/autoload.php";
 

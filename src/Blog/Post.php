@@ -5,20 +5,50 @@ namespace Ivan\Php\Blog;
 
 class Post
 {
-    private int $id;
-    private User $user;
-    private string $text;
-
     public function __construct(
-        int $id,
-        User $user,
-        string $text
+        private UUID $uuid,
+        private User $user,
+        private string $title,
+        private string $text,
+
     )
     {
-        $this->id = $id;
-        $this->text = $text;
-        $this->user = $user;
     }
+
+    /**
+     * @return UUID
+     */
+    public function getUuid(): UUID
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param UUID $uuid
+     */
+    public function setUuid(UUID $uuid): void
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+
+
 
     /**
      * @return int
