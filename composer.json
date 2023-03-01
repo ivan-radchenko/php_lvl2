@@ -1,0 +1,20 @@
+{
+    "name": "geekbrains/leveltwo",
+    "autoload": {
+        "psr-4": {
+            "Ivan\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ember",
+            "email": "evebay@mail.ru"
+        }
+    ],
+    "require": {
+        "fakerphp/faker": "^1.20",
+        "roave/security-advisories": "dev-latest",
+      "ext-pdo": "*",
+        "symfony/polyfill-uuid": "^1.26"
+    }
+}
