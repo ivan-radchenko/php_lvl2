@@ -2,9 +2,12 @@
 
 use Ivan\Php\Blog\Command\Arguments;
 use Ivan\Php\Blog\Command\CreateUserCommand;
+use Ivan\Php\Blog\Comment;
+use Ivan\Php\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
+use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use Ivan\Php\Blog\UUID;
-use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+
 
 include __DIR__ . "/vendor/autoload.php";
 
@@ -13,6 +16,7 @@ $connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
 
 $usersRepository = new SqliteUsersRepository($connection);
 $postsRepository = new SqlitePostsRepository($connection);
+$commentsRepository = new SqliteCommentsRepository($connection);
 
 /*$command = new CreateUserCommand($usersRepository);
 
@@ -25,21 +29,22 @@ try {
 //test
 try {
     $user = $usersRepository->get(new UUID('21a6bc3b-a1e7-4a1e-b774-d1276e67cfef'));
-
+    $post = $postsRepository->get(new UUID('fd5d306c-ec32-46a5-98c2-a2d3935401a8'));
 
     //save
-    /*$post = new Post(
+    $comment = new Comment(
         UUID::random(),
+        $post,
         $user,
-        'zagolovok',
-        'text posta',
+        'text commenta',
     );
 
-    $postsRepository->save($post);*/
+
+    $commentsRepository->save($comment);
 
     //get
-    $post = $postsRepository->get(new UUID('fd5d306c-ec32-46a5-98c2-a2d3935401a8'));
-    print_r($post);
+
+
 
 } catch (Exception $e) {
     echo $e->getMessage();

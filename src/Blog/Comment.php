@@ -6,13 +6,31 @@ class Comment
 {
 
     public function __construct(
-        private int $id,
-        private User $user,
+        private UUID $uuid,
         private Post $post,
-        private string $text
+        private User $user,
+        private string $text,
     )
     {
     }
+
+    /**
+     * @return UUID
+     */
+    public function getUuid(): UUID
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param UUID $uuid
+     */
+    public function setUuid(UUID $uuid): void
+    {
+        $this->uuid = $uuid;
+    }
+
+
 
     /**
      * @return int
