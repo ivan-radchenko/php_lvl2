@@ -1,11 +1,11 @@
 <?php
 
-namespace Ivan\Php\Blog\Repositories;
+namespace Ivan\Php\Blog\Repositories\UsersRepository;
 
 use Ivan\Php\Blog\Exceptions\UserNotFoundException;
 use Ivan\Php\Blog\User;
 
-class InMemoryUsersRepository
+class InMemoryUsersRepository implements UsersRepositoryInterface
 {
 
     private array $users = [];

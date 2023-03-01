@@ -5,74 +5,68 @@ use Ivan\Php\Person\Name;
 
 class User
 {
-    private int $id;
-    private Name $username;
-    private string $login;
+    private UUID $uuid;
+    private Name $name;
+    private string $username;
 
     /**
-     * @param int $id
-     * @param Name $username
+     * @param UUID $uuid
+     * @param Name $name
      * @param string $login
      */
-    public function __construct(int $id, Name $username, string $login)
+    public function __construct(UUID $uuid, Name $name, string $login)
     {
-        $this->id = $id;
-        $this->username = $username;
-        $this->login = $login;
+        $this->uuid = $uuid;
+        $this->name = $name;
+        $this->username = $login;
     }
 
     public function __toString(): string
     {
-        return "Юзер $this->id с именем $this->username и логином $this->login." . PHP_EOL;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function id(): int
-    {
-        return $this->id;
+        return "Юзер $this->uuid с именем $this->name и логином $this->username." . PHP_EOL;
     }
 
     /**
-     * @param int $id
+     * @return UUID
      */
-    public function setId(int $id): void
+    public function uuid(): UUID
     {
-        $this->id = $id;
+        return $this->uuid;
+    }
+
+
+
+    /**
+     * @return Name
+     */
+    public function name(): Name
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param Name $name
+     */
+    public function setName(Name $name): void
+    {
+        $this->name = $name;
     }
 
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function username(): string
     {
         return $this->username;
     }
 
     /**
-     * @param Name $username
+     * @param string $username
      */
-    public function setUsername(Name $username): void
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
-    public function getLogin(): string
-    {
-        return $this->login;
-    }
-
-    /**
-     * @param string $login
-     */
-    public function setLogin(string $login): void
-    {
-        $this->login = $login;
-    }
 
 }
