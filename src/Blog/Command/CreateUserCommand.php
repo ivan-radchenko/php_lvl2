@@ -2,6 +2,7 @@
 
 namespace Ivan\Php\Blog\Command;
 
+use Ivan\Php\Person\Name;
 use Ivan\Php\Blog\Exceptions\ArgumentsException;
 use Ivan\Php\Blog\Exceptions\CommandException;
 use Ivan\Php\Blog\Exceptions\InvalidArgumentException;
@@ -9,9 +10,8 @@ use Ivan\Php\Blog\Exceptions\UserNotFoundException;
 use Ivan\Php\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 use Ivan\Php\Blog\User;
 use Ivan\Php\Blog\UUID;
-use Ivan\Php\Person\Name;
 
-//php cli.php username=ivan first_name=Ivan last_name=Nikitin
+//php cli.php user username=ivan first_name=Ivan last_name=Nikitin
 
 class CreateUserCommand
 {
@@ -31,7 +31,6 @@ class CreateUserCommand
     public function handle(Arguments $arguments): void
     {
         $username = $arguments->get('username');
-
 // Проверяем, существует ли пользователь в репозитории
         if ($this->userExists($username)) {
 // Бросаем исключение, если пользователь уже существует
@@ -46,6 +45,7 @@ class CreateUserCommand
             $username,
         ));
     }
+
     private function userExists(string $username): bool
     {
         try {
@@ -56,7 +56,4 @@ class CreateUserCommand
         }
         return true;
     }
-
-
-
 }

@@ -40,4 +40,9 @@ class UUID
     {
         return $this->uuidString;
     }
+
+    public static function uuidFromString(string $uuid): self
+    {
+        return new self($uuid);
+    }
 }

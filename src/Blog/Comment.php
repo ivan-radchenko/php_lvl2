@@ -1,103 +1,44 @@
 <?php
-
 namespace Ivan\Php\Blog;
 
-class Comment
-{
+class Comment {
+    
+    private UUID $uuid;
+    private User $user;
+    private Post $post;
+    private string $text;
 
-    public function __construct(
-        private UUID $uuid,
-        private Post $post,
-        private User $user,
-        private string $text,
-    )
+    public function __construct(UUID $uuid, User $user, Post $post, string $text)
     {
+        $this->uuid = $uuid;
+        $this->user = $user;
+        $this->post = $post;
+        $this->text = $text;
     }
 
-    /**
-     * @return UUID
-     */
-    public function getUuid(): UUID
+    public function __toString(): string
+    {
+        return "Юзер $this->author_uuid написал коментарий к посту номер $this->post_uuid с номером $this->uuid и текстом: $this->text" . PHP_EOL;
+    }
+
+    public function uuid(): UUID
     {
         return $this->uuid;
     }
 
-    /**
-     * @param UUID $uuid
-     */
-    public function setUuid(UUID $uuid): void
-    {
-        $this->uuid = $uuid;
-    }
-
-
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     */
-    public function setUser(User $user): void
-    {
-        $this->user = $user;
-    }
-
-    /**
-     * @return Post
-     */
-    public function getPost(): Post
+    public function post(): Post
     {
         return $this->post;
     }
 
-    /**
-     * @param Post $post
-     */
-    public function setPost(Post $post): void
+    public function user(): User
     {
-        $this->post = $post;
+        return $this->user;
     }
-
-    /**
-     * @return string
-     */
-    public function getText(): string
+    
+    public function text(): string
     {
         return $this->text;
-    }
-
-    /**
-     * @param string $text
-     */
-    public function setText(string $text): void
-    {
-        $this->text = $text;
-    }
-
-    public function __toString() {
-        return $this->user . " пишет Коммент " . $this->text;
     }
 
 }

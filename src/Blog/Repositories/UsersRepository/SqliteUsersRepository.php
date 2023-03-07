@@ -26,8 +26,7 @@ class SqliteUsersRepository implements UsersRepositoryInterface
         // Подготавливаем запрос
         $statement = $this->connection->prepare(
             'INSERT INTO users (first_name, last_name, uuid, username) 
-VALUES (:first_name, :last_name, :uuid, :username) 
-ON CONFLICT (uuid) DO UPDATE SET first_name = :first_name,last_name = :last_name'
+            VALUES (:first_name, :last_name, :uuid, :username)'
 
         );
         // Выполняем запрос с конкретными значениями

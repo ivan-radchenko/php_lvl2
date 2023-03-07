@@ -2,51 +2,62 @@
 
 use Ivan\Php\Blog\Command\Arguments;
 use Ivan\Php\Blog\Command\CreateUserCommand;
-use Ivan\Php\Blog\Comment;
-use Ivan\Php\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
-use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+use Ivan\Php\Blog\Command\CreatePostCommand;
+use Ivan\Php\Blog\Command\CreateCommentCommand;
 use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
+use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+use Ivan\Php\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
 use Ivan\Php\Blog\UUID;
-
 
 include __DIR__ . "/vendor/autoload.php";
 
 //Создаём объект подключения к SQLite
 $connection = new PDO('sqlite:' . __DIR__ . '/blog.sqlite');
 
-$usersRepository = new SqliteUsersRepository($connection);
 $postsRepository = new SqlitePostsRepository($connection);
-$commentsRepository = new SqliteCommentsRepository($connection);
+var_dump($postsRepository->get(new UUID('cd3e7bf6-4cf8-4460-a7c3-0ba1836ceabd')));
 
-/*$command = new CreateUserCommand($usersRepository);
+die();
 
-try {
-    $command->handle(Arguments::fromArgv($argv));
-} catch (Exception $e) {
-    echo $e->getMessage();
-}*/
+$route = $argv[1];
 
-//test
-try {
-    $user = $usersRepository->get(new UUID('21a6bc3b-a1e7-4a1e-b774-d1276e67cfef'));
-    $post = $postsRepository->get(new UUID('fd5d306c-ec32-46a5-98c2-a2d3935401a8'));
+switch ($route) {
+    case "user":
+        $usersRepository = new SqliteUsersRepository($connection);
+        $command = new CreateUserCommand($usersRepository);
+        
+        try {
+            $command->handle(Arguments::fromArgv($argv));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        break;
 
-    //save
-    $comment = new Comment(
-        UUID::random(),
-        $post,
-        $user,
-        'text commenta',
-    );
+    case "post":
+        $postsRepository = new SqlitePostsRepository($connection);
+        $usersRepository = new SqliteUsersRepository($connection);
+        $command = new CreatePostCommand($postsRepository, $usersRepository);
 
+        try {
+            $command->handle(Arguments::fromArgv($argv));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        break;
 
-    $commentsRepository->save($comment);
+    case "comment":
+        $commentsRepository = new SqliteCommentsRepository($connection);
+        $command = new CreateCommentCommand($commentsRepository);
+        try {
+            $command->handle(Arguments::fromArgv($argv));
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        } 
+        break;
 
-    //get
-
-
-
-} catch (Exception $e) {
-    echo $e->getMessage();
+    default:
+        echo "error try user post comment parameter";
 }
+
+
 
