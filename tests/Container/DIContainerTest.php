@@ -1,13 +1,16 @@
 <?php
 
-namespace Ivan\Blog\UnitTests\Container;
-
-use Ivan\Php\Blog\Container\DIContainer;
-use Ivan\Php\Blog\Exceptions\NotFoundException;
-use Ivan\Php\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
-use Ivan\Php\Blog\Repositories\UsersRepository\InMemoryUsersRepository;
+namespace Ivan\Php\UnitTests\Container;
 
 use PHPUnit\Framework\TestCase;
+use Ivan\Php\Blog\Container\DIContainer;
+use Ivan\Php\Blog\Exceptions\NotFoundException;
+use Ivan\Php\UnitTests\Container\ClassDependingOnAnother;
+
+use Ivan\Php\UnitTests\Container\SomeClassWithParameter;
+use Ivan\Php\UnitTests\Container\SomeClassWithoutDependencies;
+use Ivan\Php\Blog\Repositories\UsersRepository\InMemoryUsersRepository;
+use Ivan\Php\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 
 class DIContainerTest extends TestCase
 {

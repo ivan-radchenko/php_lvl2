@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivan\Blog\UnitTests\Container;
+namespace Ivan\Php\UnitTests\Container;
 
 class SomeClassWithoutDependencies
 {

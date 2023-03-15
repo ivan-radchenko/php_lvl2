@@ -2,22 +2,24 @@
 
 namespace Ivan\Php\Blog\Repositories\PostsRepository;
 
-use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
-use Ivan\Php\Blog\Exceptions\PostNotFoundException;
-use Ivan\Php\Blog\Post;
-use Ivan\Php\Blog\UUID;
 use \PDO;
 use \PDOStatement;
+use Psr\Log\LoggerInterface;
+use Ivan\Php\Blog\Post;
+use Ivan\Php\Blog\UUID;
+use Ivan\Php\Blog\Exceptions\PostNotFoundException;
+use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 
 class SqlitePostsRepository implements PostsRepositoryInterface
 {
     private PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(PDO $connection)
+    public function __construct(PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
-
 
     public function save(Post $post): void
     {
@@ -34,6 +36,7 @@ class SqlitePostsRepository implements PostsRepositoryInterface
             ':text' => $post->text(),
         ]);
 
+        $this->logger->info("Post created successfully: {$post->uuid()}");
     }
 
     public function get(UUID $uuid): Post
@@ -52,12 +55,12 @@ class SqlitePostsRepository implements PostsRepositoryInterface
     {
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
         if ($result === false) {
-            throw new PostNotFoundException(
-                "Cannot find post: $errorString"
-            );
+            $message = "Cannot find post: $errorString";
+            $this->logger->warning($message);
+            throw new PostNotFoundException($message);
         }
 
-        $userRepository = new SqliteUsersRepository($this->connection);
+        $userRepository = new SqliteUsersRepository($this->connection, $this->logger);
         $user = $userRepository->get(new UUID($result['author_uuid']));
 
         return new Post(

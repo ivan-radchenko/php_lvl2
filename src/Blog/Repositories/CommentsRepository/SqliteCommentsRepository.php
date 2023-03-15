@@ -2,21 +2,24 @@
 
 namespace Ivan\Php\Blog\Repositories\CommentsRepository;
 
-use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
-use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
-use Ivan\Php\Blog\Exceptions\CommentNotFoundException;
-use Ivan\Php\Blog\Comment;
-use Ivan\Php\Blog\UUID;
 use \PDO;
 use \PDOStatement;
+use Psr\Log\LoggerInterface;
+use Ivan\Php\Blog\UUID;
+use Ivan\Php\Blog\Comment;
+use Ivan\Php\Blog\Exceptions\CommentNotFoundException;
+use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
+use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 
 class SqliteCommentsRepository implements CommentsRepositoryInterface
 {
     private PDO $connection;
+    private LoggerInterface $logger;
 
-    public function __construct(PDO $connection)
+    public function __construct(PDO $connection, LoggerInterface $logger)
     {
         $this->connection = $connection;
+        $this->logger = $logger;
     }
 
 
@@ -27,7 +30,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             VALUES (:uuid, :post_uuid, :author_uuid, :text)'
 
         );
-   
+
         $statement->execute([
             ':uuid' => (string)$comment->uuid(),
             ':post_uuid' => (string)$comment->post()->uuid(),
@@ -35,6 +38,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             ':text' => $comment->text(),
         ]);
 
+        $this->logger->info("Post created successfully: {$comment->uuid()}");
     }
 
     public function get(UUID $uuid): Comment
@@ -44,25 +48,25 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
         );
 
         $statement->execute([(string)$uuid]);
-       
+
         return $this->getComment($statement, $uuid);
     }
 
     private function getComment(PDOStatement $statement, string $errorString): Comment
     {
         $result = $statement->fetch(\PDO::FETCH_ASSOC);
+
         if ($result === false) {
-            throw new CommentNotFoundException(
-                "Cannot find comment: $errorString"
-            );
+            $message = "Cannot find comment: $errorString";
+            $this->logger->warning($message);
+            throw new CommentNotFoundException($message);
         }
 
-        
-        $postRepository = new SqlitePostsRepository($this->connection);
+        $postRepository = new SqlitePostsRepository($this->connection, $this->logger);
         $post = $postRepository->get(new UUID($result['post_uuid']));
 
         return new Comment(
-            new UUID($result['uuid']),           
+            new UUID($result['uuid']),
             $post->user(),
             $post,
             $result['text']
