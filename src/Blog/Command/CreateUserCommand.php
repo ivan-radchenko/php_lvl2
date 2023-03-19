@@ -51,6 +51,7 @@ class CreateUserCommand
                 $arguments->get('last_name')
             ),
             $username,
+            $arguments->get('password'),
         ));
 
         // Логируем информацию о новом пользователе
