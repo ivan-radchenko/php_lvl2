@@ -1,8 +1,8 @@
 <?php
 
-use Ivan\Php\Command\Arguments;
-use Ivan\Php\Command\CreateUserCommand;
-use Ivan\Php\Exceptions\AppException;
+use Ivan\Php\Blog\Command\Arguments;
+use Ivan\Php\Blog\Command\CreateUserCommand;
+use Ivan\Php\Blog\Exceptions\AppException;
 use Psr\Log\LoggerInterface;
 
 $container = require __DIR__ . '/bootstrap.php';

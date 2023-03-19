@@ -4,6 +4,8 @@
 use Psr\Log\LoggerInterface;
 use Ivan\Php\Http\Request;
 use Ivan\Php\Http\ErrorResponse;
+use Ivan\Php\Http\Actions\Auth\LogIn;
+use Ivan\Php\Http\Actions\Auth\LogOut;
 use Ivan\Php\Blog\Exceptions\AppException;
 use Ivan\Php\Blog\Exceptions\HttpException;
 use Ivan\Php\Http\Actions\Posts\CreatePost;
@@ -47,9 +49,11 @@ $routes = [
     ],
     'POST' => [
         '/login' => LogIn::class,
+        '/logout' => LogOut::class,
         '/users/create' => CreateUser::class,
         '/posts/create' => CreatePost::class,
-        '/post-likes/create' => CreatePostLike::class,
+        '/comments/create' => CreateComment::class,
+        '/posts/likes/create' => CreatePostLike::class,
     ],
     'DELETE' => [
         '/posts' => DeletePost::class,

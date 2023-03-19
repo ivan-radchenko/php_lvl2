@@ -1,6 +1,6 @@
 <?php
 
-namespace Ivan\Php\UnitTests\Container;
+namespace Ivan\Blog\UnitTests\Container;
 
 use PHPUnit\Framework\TestCase;
 use Ivan\Php\Blog\Container\DIContainer;

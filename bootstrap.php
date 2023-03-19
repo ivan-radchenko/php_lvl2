@@ -5,13 +5,23 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Monolog\Handler\StreamHandler;
 use Ivan\Php\Blog\Container\DIContainer;
-use Ivan\Php\Blog\Command\CreateUserCommand;
+use Ivan\Php\Http\Auth\PasswordAuthentication;
+use Ivan\Php\Http\Auth\AuthenticationInterface;
+use Ivan\Php\Http\Auth\IdentificationInterface;
+use Ivan\Php\Http\Auth\BearerTokenAuthentication;
+use Ivan\Php\Http\Auth\TokenAuthenticationInterface;
+use Ivan\Php\Http\Auth\JsonBodyUsernameIdentification;
+use Ivan\Php\Http\Auth\PasswordAuthenticationInterface;
 use Ivan\Php\Blog\Repositories\LikesRepository\SqliteLikesRepository;
 use Ivan\Php\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use Ivan\Php\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use Ivan\Php\Blog\Repositories\LikesRepository\LikesRepositoryInterface;
 use Ivan\Php\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 use Ivan\Php\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
+use Ivan\Php\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
+use Ivan\Php\Blog\Repositories\CommentsRepository\CommentsRepositoryInterface;
+use Ivan\Php\Blog\Repositories\AuthTokensRepository\SqliteAuthTokensRepository;
+use Ivan\Php\Blog\Repositories\AuthTokensRepository\AuthTokensRepositoryInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -49,6 +59,11 @@ if ('yes' === $_ENV['LOG_TO_CONSOLE']) {
 }
 
 $container->bind(
+    CommentsRepositoryInterface::class,
+    SqliteCommentsRepository::class
+);
+
+$container->bind(
     PostsRepositoryInterface::class,
     SqlitePostsRepository::class
 );
@@ -67,6 +82,31 @@ $container->bind(
     LoggerInterface::class,
     $logger
 
+);
+
+$container->bind(
+    TokenAuthenticationInterface::class,
+    BearerTokenAuthentication::class
+);
+
+
+$container->bind(
+    PasswordAuthenticationInterface::class,
+    PasswordAuthentication::class
+);
+$container->bind(
+    AuthTokensRepositoryInterface::class,
+    SqliteAuthTokensRepository::class
+);
+
+$container->bind(
+    AuthenticationInterface::class,
+    PasswordAuthentication::class
+);
+
+$container->bind(
+    IdentificationInterface::class,
+    JsonBodyUsernameIdentification::class
 );
 
 
