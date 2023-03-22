@@ -38,7 +38,7 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
             ':text' => $comment->text(),
         ]);
 
-        $this->logger->info("Post created successfully: {$comment->uuid()}");
+        $this->logger->info("Comment created successfully: {$comment->uuid()}");
     }
 
     public function get(UUID $uuid): Comment

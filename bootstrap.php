@@ -2,7 +2,12 @@
 
 use Dotenv\Dotenv;
 use Monolog\Logger;
+use Faker\Generator;
+use Faker\Provider\Lorem;
 use Psr\Log\LoggerInterface;
+use Faker\Provider\ru_RU\Text;
+use Faker\Provider\ru_RU\Person;
+use Faker\Provider\nl_BE\Internet;
 use Monolog\Handler\StreamHandler;
 use Ivan\Php\Blog\Container\DIContainer;
 use Ivan\Php\Http\Auth\PasswordAuthentication;
@@ -57,6 +62,20 @@ if ('yes' === $_ENV['LOG_TO_CONSOLE']) {
         new StreamHandler("php://stdout")
     );
 }
+
+$faker = new Generator();
+// Инициализируем необходимые нам виды данных
+$faker->addProvider(new Person($faker));
+$faker->addProvider(new Text($faker));
+$faker->addProvider(new Internet($faker));
+$faker->addProvider(new Lorem($faker));
+
+// Добавляем генератор тестовых данных
+// в контейнер внедрения зависимостей
+$container->bind(
+    Generator::class,
+    $faker
+);
 
 $container->bind(
     CommentsRepositoryInterface::class,
