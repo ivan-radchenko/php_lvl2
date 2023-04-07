@@ -1,0 +1,15 @@
+Спагетти код:
+неиспользуемый код: src/Http/UsersRepository/...
+В проекте существует три users репозитория, хотя по факту используется только один.
+Решение: удалить.
+
+неиспользуемый класс: src/tests/Container/SomeClassWithoutDependencies.php
+Решение: удалить.
+
+Кодирование исключениями: src/Exeptions/...
+В проекте слишком много исключений, их надо объединить в группы
+
+Полтергейст:
+src/Http/Auth/PasswordAuthenticationInterface.php
+src/Http/Auth/TokenAuthenticationInterface.php
+Решение: переписать взаимодействие классов напрямую.
